@@ -1,0 +1,12 @@
+{
+    "name": "jrogers/receipt.tracker.v3",
+    "type": "n",
+    "autoload": {
+        "psr-4": {
+            "app\\": "src/"
+        }
+    },
+    "require": {
+      "ext-pdo": "*"
+    }
+}
