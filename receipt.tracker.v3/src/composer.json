@@ -1,0 +1,11 @@
+{
+    "name": "james/src",
+    "require": {
+        "ext-pdo": "*"
+
+    },
+    "autoload": {
+        "psr-4": {"app\\": "src\\"}
+    }
+
+}
