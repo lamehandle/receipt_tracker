@@ -14,6 +14,14 @@ class Receipt implements Purchase_Record
 
     }
 
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
     public function populate_categories(?array $cat_list = array()){
         if( !empty($cat_list) ) {
             $this->category_list = [$cat_list];

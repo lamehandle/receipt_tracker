@@ -15,6 +15,14 @@ $tax_rates_3 = ["PST"=> 0.07, "VAT" => 0.1];
 
 $date = new DateTime();
 
+$host       = 'localhost';
+$username   = 'root';
+$password   = 'admin';
+$dbname     = 'receipts_tracker';
+$charset    = 'utf8mb4';
+
+$dataBase = new Database_Store($host, $username, $password, $dbname, $charset);
+
 //test adding arrays of categories to a category list
 //$new_category_test_1 = ["Lasers?","Bombs?"];
 //$new_category_test_2 = ["Kittens","Puppies","Snakes"];
