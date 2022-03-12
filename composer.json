@@ -1,0 +1,15 @@
+{
+    "name": "james/receipt.tracker.v3",
+    "authors": [
+        {
+            "name": "James Rogers",
+            "email": "jamesrogersgis@gmail.com"
+        }
+    ],
+    "require": {
+      "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {"app\\": "src/"}
+    }
+}

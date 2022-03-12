@@ -4,34 +4,64 @@ namespace app;
 use PDO;
 use PDOException;
 
+require_once 'Store.php';
+
 class Database_Store implements Store
 {
     public PDO      $conn; // connection
     public string   $host;
+    public string   $dbname;
+    public string   $port;
+    public string   $charset;
     public string   $username;
     public string   $password;
-    public string   $dbname;
-    public string   $charset;
-    public string   $dsn = 'mysql:host=$host; dbname=$dbname;port=8080;charset=$charset'; //data source name
+    public string   $dsn; //data source name
     public array    $options = [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ, //todo may need to change after class is implemented.
-        PDO::ATTR_EMULATE_PREPARES   => false,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, //always throw exceptions
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //retrieve records as associative arrays
+        PDO::ATTR_EMULATE_PREPARES   => false, //do not use emulate mode
         ];
 
+    public function __construct($host = '', $dbname = '', $port = '', $charset = '', $username = '', $password = '',  $options = [] ){
 
-    public function __construct($host, $username, $password, $dbname, $charset){
+        $this->host     = 'localhost';
+        $this->dbname   = 'receipts_tracker';
+        $this->port     = '80';
+        $this->charset  = 'utf8mb4';
+        $this->username = 'root';
+        $this->password = 'admin';
+        $this->options  = $options;
+        $this->dsn      = "mysql:host=$this->host;dbname=$this->dbname;port=$this->port;charset=$this->charset;";
 
-        $this->host     = $host     | 'localhost';
-        $this->username = $username | 'root';
-        $this->password = $password | 'admin';
-        $this->dbname   = $dbname   | 'receipts_tracker';
-        $this->charset  = $charset  | 'utf8mb4';
      }
 
-    public static function connect($dsn, $username, $password, $options = []) :PDO{
+//     /**
+//        *@param string $username
+//     **/
+//    public function setUsername(string $username): void
+//    {
+//        $this->username = $username;
+//    }
+//
+//    /**
+//        *@param string $dbname
+//    **/
+//    public function setDbname(string $dbname): void
+//    {
+//        $this->dbname = $dbname;
+//    }
+//
+//    /**
+//     * @param string $host
+//     **/
+//    public function setHost(string $host): void
+//    {
+//        $this->host = $host;
+//    }
+
+    public static function connect($dsn, $username, $password, $options) :PDO{
         try {
-        $conn = new PDO($dsn, $username, $password, $options);
+        $conn = new PDO($dsn, $username, $password, $options = []);
 
         } catch(PDOException $e){
             throw new PDOException($e->getMessage(), (int)$e->getCode());
@@ -78,6 +108,7 @@ class Database_Store implements Store
             ]);
         } catch(PDOException $e){
             throw new PDOException($e->getMessage(), (int)$e->getCode());
+
         }
         $conn = null;
     }
@@ -131,5 +162,6 @@ class Database_Store implements Store
         $conn = null;
 
     }
-    
+
+
 }
