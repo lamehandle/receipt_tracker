@@ -24,7 +24,7 @@ class LineItemBuilder
 
         $new_item = new Line_Item($id, $vendor, $item, $category, $tax_rates, $price, $date);
 
-        print_r($new_item); //did it build it?
+//        print_r($new_item); //did it build it?
 
         return $new_item;
     }

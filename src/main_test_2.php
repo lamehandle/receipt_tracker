@@ -23,11 +23,9 @@ $date = new DateTime();
 //$new_category_test_2 = ["Kittens","Puppies","Snakes"];
 //$new_category_test_3 = ["Kittens","Puppies","Snakes!", "Knives!"];
 
-
 echo "\n";
 echo "file is powering up... \n";
 echo "------------------------" . PHP_EOL;
-
 
 echo "\n";
 echo "Creating line items...". PHP_EOL;
@@ -58,37 +56,22 @@ $user_data_3 = [
     'price'     => Utilities::random_price(),
 ];
 
-
 $test_input_1  = LineItemBuilder::getUserData($user_data_1);
 $test_input_2 = LineItemBuilder::getUserData($user_data_2);
 $test_input_3 = LineItemBuilder::getUserData($user_data_3);
 
-
-echo "------------------------" . PHP_EOL;
 echo "Initializing receipt...";
 echo "\n";
 
 $receipt = new Receipt(uniqid("", false));
 
 echo "------------------------" . PHP_EOL;
-echo "Initializing line item 1...". PHP_EOL;
+echo "Initializing line items...". PHP_EOL;
 echo "\n";
 
 $receipt->addItem($test_input_1);
 
-//print_r($receipt);
-
-echo "------------------------" . PHP_EOL;
-//echo "Initializing line item 2...". PHP_EOL;
-//echo "\n";
-
 $receipt->addItem($test_input_2);
-
-//print_r($receipt);
-
-//echo "---------------------------------". PHP_EOL;
-//echo "Initializing line item 3...". PHP_EOL;
-//echo "\n";
 
 $receipt->addItem($test_input_3);
 
@@ -125,19 +108,17 @@ print_r($receipt);
 //echo "\n";
 
 echo "---------------------------------". PHP_EOL;
-echo "Receipt subtotal: ";
-print_r($receipt->subtotal());
-echo "\n";
+echo "Receipt subtotal: $" . number_format($receipt->subtotal(),2,'.',',') . PHP_EOL;
+
 echo "---------------------------------". PHP_EOL;
 echo "Receipt taxes: ";
 echo "\n";
 foreach ($receipt->taxes() as $tax) {
-    echo $tax . "\n";
+    echo "$". number_format($tax,2,'.',',') . PHP_EOL;
 }
 echo "\n";
 echo "---------------------------------". PHP_EOL;
-echo "Receipt final total: ";
-echo $receipt->total();
+echo "Receipt final total: $" . number_format($receipt->total(),2,'.',',');
 echo "\n";
 echo "---------------------------------". PHP_EOL;
 
