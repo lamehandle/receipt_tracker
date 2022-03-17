@@ -7,7 +7,6 @@ class Receipt implements Purchase_Record
 {
     public array $line_items = [];
     public array $category_list = [];
-    public array $filtered_list = [];
     private string $id;
 
     public function __construct($id){
