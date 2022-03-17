@@ -11,7 +11,7 @@ class LineItemBuilder
 
     public static function getUserData($user_data) : Line_Item
     {
-        $id = uniqid("", false);
+        $id = uniqid("test_", false);
         $vendor = $user_data["vendor"];
         $item = $user_data["item"];
         $category = $user_data["category"];
@@ -20,7 +20,7 @@ class LineItemBuilder
         $date = $date = new DateTime();
         
         $new_item = new Line_Item($id, $vendor, $item, $category, $tax_rates, $price, $date);
-        print_r($new_item);
+        print_r($new_item); //did it build it?
         return $new_item;
 
     }

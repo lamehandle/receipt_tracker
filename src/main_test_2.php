@@ -33,30 +33,39 @@ echo "Creating line items...";
 echo "------------------------" . PHP_EOL;
 echo "\n";
 
-$user_data = [
+$user_data_1 = [
 
-    'vendor'    => "vendor",
-    'item'      => "item",
-    'category'  => "category",
+    'vendor'    => "Co-op",
+    'item'      => "Tomatoes",
+    'category'  => "groceries",
     'tax_rates' => $tax_rates_1 ,
     'price'     => Utilities::random_price(),
     ];
+$user_data_2 = [
 
+    'vendor'    => "Walmart",
+    'item'      => "Diapers",
+    'category'  => "misc",
+    'tax_rates' => $tax_rates_2 ,
+    'price'     => Utilities::random_price(),
+];
+$user_data_3 = [
+
+    'vendor'    => "Canadian Tire",
+    'item'      => "Oil Change",
+    'category'  => "misc",
+    'tax_rates' => $tax_rates_3 ,
+    'price'     => Utilities::random_price(),
+];
 
 $test_input_1 = new Line_Item(uniqid("", false), "test-vendor-1",
     "test-item-1","Kittens", $tax_rates_1,Utilities::random_price(), $date);
 
 
-$test_input_1  = LineItemBuilder::getUserData($user_data);
-print_r($test_input_1);
+$test_input_1  = LineItemBuilder::getUserData($user_data_1);
+$test_input_2 = LineItemBuilder::getUserData($user_data_2);
+$test_input_3 = LineItemBuilder::getUserData($user_data_3);
 exit();
-
-$test_input_2 = new Line_Item(uniqid("", false), "test-vendor-2",
-    "test-item-2","Lasers", $tax_rates_2,Utilities::random_price(), $date);
-
-$test_input_3 = new Line_Item(uniqid("", false), "test-vendor-3",
-    "test-item-3","Bombs", $tax_rates_3,Utilities::random_price(), $date);
-
 
 echo "------------------------" . PHP_EOL;
 echo "Initializing receipt...";
