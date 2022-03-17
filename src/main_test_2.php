@@ -9,6 +9,8 @@ require_once('Line_Item.php');
 require_once('Utilities.php');
 require_once('Filter.php');
 require_once('Report.php');
+require_once ('Line_Item_Builder.php');
+
 $tax_rates_1 = ["GST"=> 0.01, "PST"=> 0.01 ];
 $tax_rates_2 = ["GST"=> 0.20];
 $tax_rates_3 = ["PST"=> 0.07, "VAT" => 0.1];
@@ -23,16 +25,31 @@ $date = new DateTime();
 
 echo "\n";
 echo "file is powering up... \n";
-echo "------------------------------------------------------------------------------------- \n";
+echo "------------------------" . PHP_EOL;
 echo "\n";
 
 echo "\n";
 echo "Creating line items...";
+echo "------------------------" . PHP_EOL;
 echo "\n";
-echo "\n";
+
+$user_data = [
+
+    'vendor'    => "vendor",
+    'item'      => "item",
+    'category'  => "category",
+    'tax_rates' => $tax_rates_1 ,
+    'price'     => Utilities::random_price(),
+    ];
+
 
 $test_input_1 = new Line_Item(uniqid("", false), "test-vendor-1",
     "test-item-1","Kittens", $tax_rates_1,Utilities::random_price(), $date);
+
+
+$test_input_1  = LineItemBuilder::getUserData($user_data);
+print_r($test_input_1);
+exit();
 
 $test_input_2 = new Line_Item(uniqid("", false), "test-vendor-2",
     "test-item-2","Lasers", $tax_rates_2,Utilities::random_price(), $date);
@@ -41,14 +58,14 @@ $test_input_3 = new Line_Item(uniqid("", false), "test-vendor-3",
     "test-item-3","Bombs", $tax_rates_3,Utilities::random_price(), $date);
 
 
-echo "------------------------------------------------------------------------------------- \n";
+echo "------------------------" . PHP_EOL;
 echo "Initializing receipt...";
 echo "\n";
 echo "\n";
 
 $receipt = new Receipt(uniqid("", false));
 
-//echo "------------------------------------------------------------------------------------- \n";
+echo "------------------------" . PHP_EOL;
 //echo "Initializing line item 1...";
 //echo "\n";
 //echo "\n";
@@ -119,3 +136,13 @@ echo $receipt->total();
 echo "\n";
 echo "------------------------------------------------------------------------------------- \n";
 
+//todo test DataBase Store
+
+$host = '';
+$dbname = '';
+$port = '';
+$charset = '';
+$username = '';
+$password = '';
+
+$data_store = new Database_Store($host = '', $dbname = '', $port = '', $charset = '', $username = '', $password = '');

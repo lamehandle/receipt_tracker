@@ -14,10 +14,10 @@ class  Line_Item implements Purchase_Record
     public string $vendor = "";
     public string $item = "";
     public array $tax_rates = [];
-    public float $price = 0;
+    public float $price;
     public DateTime $date;
 
-    public function __construct($id, $vendor, $item, $category, $tax_rates, $price, $date )
+    public function __construct($id, $vendor, $item, $category, $tax_rates, float $price, $date )
     {
         $this->id =  $id;
         $this->vendor = $vendor;

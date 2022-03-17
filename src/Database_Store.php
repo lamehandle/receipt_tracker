@@ -24,13 +24,13 @@ class Database_Store implements Store
 
     public function __construct($host = '', $dbname = '', $port = '', $charset = '', $username = '', $password = ''){
 
-        $this->host     = $host | 'localhost';
-        $this->dbname   = $dbname | 'receipts_tracker';
-        $this->port     = $port | '80';
-        $this->charset  = $charset | 'utf8mb4';
+        $this->host     = $host     | 'localhost';
+        $this->dbname   = $dbname   | 'receipts_tracker';
+        $this->port     = $port     | '3306';
+        $this->charset  = $charset  | 'utf8mb4';
         $this->username = $username | 'root';
         $this->password = $password | 'admin';
-        $this->dsn      = "mysql:host=$this->host;dbname=$this->dbname;port=$this->port;charset=$this->charset;";
+        $this->dsn      = "mysql:host=$host;dbname=$dbname;port=$port;charset=$charset;";
 
      }
 
