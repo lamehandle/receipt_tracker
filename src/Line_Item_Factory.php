@@ -4,7 +4,7 @@ namespace app;
 
 use DateTime;
 
-class LineItemBuilder
+class LineItemFactory
 {
     public array $user_data;
     public ?array $errors = [];
@@ -12,9 +12,9 @@ class LineItemBuilder
 
     public static function getUserData($user_data) : Line_Item
     {
-        $errors[] = LineItemBuilder::validate_data($user_data);
+        $errors[] = LineItemFactory::validate_data($user_data);
 
-        $id = uniqid("test_", false);
+        $id = uniqid("item_", false);
         $vendor = $user_data["vendor"];
         $item = $user_data["item"];
         $category = $user_data["category"];
@@ -31,24 +31,27 @@ class LineItemBuilder
 
     public static function validate_data($user_data) : array
     {   $errors = [];
-        if(!$user_data) {
+        if(!$user_data = []) {
             $errors[] = "line item is empty";
         }
 
         if( !is_string($user_data["vendor"])){
-            $errors[] = "line item is empty";
+            $errors[] = "item vendor must be a string";
         }
         if( !is_string($user_data["item"])){
-            $errors[] = "line item is name must be a string";
+            $errors[] = "item name must be a string";
         }
         if( !is_string(($user_data["category"]))){
-            $errors[] = "line item is name must be a string";
+            $errors[] = "category must be a string";
         }
-        if( !is_array($user_data["tax_rates"])){
-            $errors[] = "line item is empty";
+        if( !is_float((float)$user_data["tax"])){
+            $errors[] = "tax is not correct type";
         }
-        if( !is_float($user_data["price"])){
-            $errors[] = "line item is empty";
+        if( !is_float((float)$user_data["price"])){
+            $errors[] = "price is not correct type";
+        }
+        if( !$user_data["date"] instanceof DateTime){
+            $errors[] = "date is not an instance of DateTime";
         }
 
         return $errors;

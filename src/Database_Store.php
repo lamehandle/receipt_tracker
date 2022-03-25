@@ -25,38 +25,15 @@ class Database_Store implements Store
     public function __construct($host = '', $dbname = '', $port = '', $charset = '', $username = '', $password = ''){
 
         $this->host     = $host     | 'localhost';
-        $this->dbname   = $dbname   | 'receipts_tracker';
+        $this->dbname   = $dbname   | 'receipts-tracker.line-items';
         $this->port     = $port     | '3306';
         $this->charset  = $charset  | 'utf8mb4';
         $this->username = $username | 'root';
-        $this->password = $password | 'admin';
+        $this->password = $password | 'root';
         $this->dsn      = "mysql:host=$host;dbname=$dbname;port=$port;charset=$charset;";
 
      }
 
-//     /**
-//        *@param string $username
-//     **/
-//    public function setUsername(string $username): void
-//    {
-//        $this->username = $username;
-//    }
-//
-//    /**
-//        *@param string $dbname
-//    **/
-//    public function setDbname(string $dbname): void
-//    {
-//        $this->dbname = $dbname;
-//    }
-//
-//    /**
-//     * @param string $host
-//     **/
-//    public function setHost(string $host): void
-//    {
-//        $this->host = $host;
-//    }
 
     public static function connect($dsn, $username, $password, $options) :PDO{
         try {
