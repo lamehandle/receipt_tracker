@@ -2,19 +2,19 @@
 
 <form action="" method="post">
     <div class="mb-3">
-        <label for="vendor-name" class="form-label">Vendor name</label>
-        <input type="text" class="form-control field" id="vendor-name" aria-describedby="Vendor name" name="vendor">
+        <label for="vendor" class="form-label">Vendor name</label>
+        <input type="text" class="form-control field" id="vendor" aria-describedby="vendor" name="vendor">
         <div id="vendor" class="form-text">Enter the name of the vendor your receipt is from.</div>
     </div>
 
     <div class="mb-3">
-        <label for="item-name" class="form-label">Item name</label>
-        <input type="text" class="form-control field" id="item-name" aria-describedby="Item name" name="item">
-        <div id="vendor" class="form-text">Enter the name of the item from your receipt.</div>
+        <label for="item" class="form-label">Item name</label>
+        <input type="text" class="form-control field" id="item" aria-describedby="item" name="item">
+        <div id="item" class="form-text">Enter the name of the item from your receipt.</div>
     </div>
 
     <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Category</label>
+        <label for="category" class="form-label">Category</label>
             <select class="form-select field" aria-label="category">
                 <option selected>Open this select menu</option>
                 <option value="1">Produce</option>
@@ -39,20 +39,20 @@
     </div>
 
     <div class="mb-3">
-        <label for="receipt-subtotal" class="form-label">Subtotal</label>
-        <input type="number" step="0.01" min="0.00" class="form-control field" id="receipt-subtotal" aria-describedby="subtotal">
+        <label for="subtotal" class="form-label">Subtotal</label>
+        <input type="number" step="0.01" min="0.00" class="form-control field" id="subtotal" aria-describedby="subtotal">
         <div id="subtotal" class="form-text">Receipt subtotal.</div>
     </div>
 
     <div class="mb-3">
-        <label for="receipt-price" class="form-label">Price</label>
-        <input type="number" step="0.01" min="0.00" class="form-control field" id="receipt-price" aria-describedby="Receipt Price">
-        <div id="total" class="form-text">Receipt Price.</div>
+        <label for="price" class="form-label">Price</label>
+        <input type="number" step="0.01" min="0.00" class="form-control field" id="price" aria-describedby="price">
+        <div id="price" class="form-text">Receipt Price.</div>
     </div>
 
     <div class="mb-3">
-        <label for="receipt-date" class="form-label">Date</label>
-        <input type="date"  class="form-control field" id="receipt-date" aria-describedby="Receipt Date">
+        <label for="date" class="form-label">Date</label>
+        <input type="date"  class="form-control field" id="date" aria-describedby="date">
         <div id="date" class="form-date">Receipt Date.</div>
     </div>
 

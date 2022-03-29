@@ -25,19 +25,19 @@ class Database_Store implements Store
     public function __construct($host = '', $dbname = '', $port = '', $charset = '', $username = '', $password = ''){
 
         $this->host     = $host     | 'localhost';
-        $this->dbname   = $dbname   | 'receipts-tracker.line-items';
+        $this->dbname   = $dbname   | 'receipts_tracker';
         $this->port     = $port     | '3306';
         $this->charset  = $charset  | 'utf8mb4';
         $this->username = $username | 'root';
         $this->password = $password | 'root';
-        $this->dsn      = "mysql:host=$host;dbname=$dbname;port=$port;charset=$charset;";
+        $this->dsn      = "mysql:host=$host;dbname=$dbname;port=$port;charset=$charset";
 
      }
 
 
-    public static function connect($dsn, $username, $password, $options) :PDO{
+    public static function connect($dsn,$username,$password,$options) :PDO{
         try {
-        $conn = new PDO($dsn, $username, $password, $options);
+        $conn = new PDO($dsn,$username,$password,$options);
 
         } catch(PDOException $e){
             throw new PDOException($e->getMessage(), (int)$e->getCode());
@@ -47,7 +47,7 @@ class Database_Store implements Store
 
     public function retrieve_items($field, $value, Receipt $receipt = null) :Receipt { //todo refactor to be more specific?
         try {
-            $conn = Database_Store::connect($this->dsn, $this->username, $this->password, $this->options);
+            $conn = Database_Store::connect($this->dsn,$this->username,$this->password,$this->options);
             if($receipt = null){
                 $receipt = new Receipt(uniqid("", false));
             }
@@ -69,22 +69,22 @@ class Database_Store implements Store
 
     public function save_item(Line_Item $item){
         try {
-            $conn = Database_Store::connect($this->dsn, $this->username, $this->password, $this->options);
+            $conn = Database_Store::connect($this->dsn,$this->username,$this->password,$this->options);
             $sql = /** @lang text */
-                "INSERT INTO receipts_2021 (id, vendor, item, category, subtotal, tax, total, date)
-                 VALUES (:id, :vendor, :item, :category, :subtotal, :tax, :total, :date)";
+                "INSERT INTO line_items ( id, vendor,  item,  category,  tax,  price,  date)
+                                VALUES  (:id, :vendor, :item, :category, :tax, :price, :date)";
             $conn->prepare($sql)->execute([
                 'id'        => $item->id,
                 'vendor'    => $item->vendor,
                 'item'      => $item->item,
                 'category'  => $item->category,
-                'subtotal'  => $item->subtotal(),
-                'total'     => $item->total(),
+                'tax'       => $item->tax_rates,
+                'price'     => $item->price,
                 'date'      => $item->date
             ]);
         } catch(PDOException $e){
+//            echo "This is the error thrown " . $e->getMessage() . " with code " . $e->getCode() . " and " . $e->getFile() . PHP_EOL;
             throw new PDOException($e->getMessage(), (int)$e->getCode());
-
         }
         $conn = null;
     }

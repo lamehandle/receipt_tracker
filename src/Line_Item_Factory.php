@@ -31,7 +31,7 @@ class LineItemFactory
 
     public static function validate_data($user_data) : array
     {   $errors = [];
-        if(!$user_data = []) {
+        if(!$user_data) {
             $errors[] = "line item is empty";
         }
 
@@ -44,14 +44,11 @@ class LineItemFactory
         if( !is_string(($user_data["category"]))){
             $errors[] = "category must be a string";
         }
-        if( !is_float((float)$user_data["tax"])){
+        if( !is_float((float)$user_data["tax_rates"])){
             $errors[] = "tax is not correct type";
         }
         if( !is_float((float)$user_data["price"])){
             $errors[] = "price is not correct type";
-        }
-        if( !$user_data["date"] instanceof DateTime){
-            $errors[] = "date is not an instance of DateTime";
         }
 
         return $errors;

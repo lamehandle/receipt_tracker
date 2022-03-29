@@ -18,12 +18,15 @@ $tax_rates_3 = ["PST"=> 0.07, "VAT" => 0.1];
 
 $date = new DateTime();
 
-//test adding arrays of categories to a category list
-//$new_category_test_1 = ["Lasers?","Bombs?"];
-//$new_category_test_2 = ["Kittens","Puppies","Snakes"];
-//$new_category_test_3 = ["Kittens","Puppies","Snakes!", "Knives!"];
+$host       =  'localhost';
+$dbname     = 'receipts_tracker';
+$port       = '3306';
+$charset    = 'utf8mb4';
+$username   = 'root';
+$password   = 'root';
 
-echo "\n";
+$db = new Database_Store($host, $dbname, $port, $charset, $username, $password);
+
 echo "file is powering up... \n";
 echo "------------------------" . PHP_EOL;
 
@@ -36,24 +39,24 @@ $user_data_1 = [
     'vendor'    => "Co-op",
     'item'      => "Tomatoes",
     'category'  => "groceries",
-    'tax_rates' => $tax_rates_1 ,
-    'price'     => Utilities::random_price(),
+    'tax_rates' => $tax_rates_1,
+    'price'     => Utilities::random_price()
     ];
 $user_data_2 = [
 
     'vendor'    => "Walmart",
     'item'      => "Diapers",
     'category'  => "misc",
-    'tax_rates' => $tax_rates_2 ,
-    'price'     => Utilities::random_price(),
+    'tax_rates' => $tax_rates_2,
+    'price'     => Utilities::random_price()
 ];
 $user_data_3 = [
 
     'vendor'    => "Canadian Tire",
     'item'      => "Oil Change",
     'category'  => "Automotive",
-    'tax_rates' => $tax_rates_3 ,
-    'price'     => Utilities::random_price(),
+    'tax_rates' => $tax_rates_3,
+    'price'     => Utilities::random_price()
 ];
 
 $test_input_1  = LineItemFactory::getUserData($user_data_1);
@@ -122,3 +125,5 @@ echo "Receipt final total: $" . number_format($receipt->total(),2,'.',',');
 echo "\n";
 echo "---------------------------------". PHP_EOL;
 
+print_r($test_input_1);
+$db->save_item($test_input_1);
