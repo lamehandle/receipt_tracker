@@ -12,14 +12,14 @@ class LineItemFactory
 
     public static function getUserData($user_data) : Line_Item
     {
-        $errors[] = LineItemFactory::validate_data($user_data);
+        $errors[] = self::validate_data($user_data);
 
         $id = uniqid("item_", false);
-        $vendor = $user_data["vendor"];
-        $item = $user_data["item"];
-        $category = $user_data["category"];
-        $tax_rates = $user_data["tax_rates"] ;
-        $price = $user_data["price"];
+        $vendor = $user_data["vendor"] ?? "";
+        $item = $user_data["name"] ?? "";
+        $category = (new Category($user_data["category"])) ?? "";
+        $tax_rates = $user_data["tax_rates"] ?? "";
+        $price = $user_data["price"] ?? "";
         $date = $date = new DateTime();
 
         $new_item = new Line_Item($id, $vendor, $item, $category, $tax_rates, $price, $date);

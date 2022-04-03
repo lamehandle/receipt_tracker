@@ -20,24 +20,25 @@
                 </tr>
 
                 <tr>
-                    <th scope="row">    </th>
+                    <th scope="row">2</th>
                     <td>Jacobin</td>
                     <td>Thornton-test</td>
                     <td>@fat-test</td>
                 </tr>
 
                 <tr>
-                    <th scope="row">    </th>
+                    <th scope="row">3</th>
                     <td colspan="2">Larry the Birdholder</td>
                     <td>@twitter-test</td>
                 </tr>
 
                 <tfoot>
-
-                    <th scope="row"></th>
-                    <td colspan="2"></td>
-                    <td colspan="4"> Total: <?php echo "total goes here";?> </td> <!--display totals-->
-                    <td colspan="1"></td>
+                    <tr>
+                        <th scope="row"></th>
+                        <td colspan="2"></td>
+                        <td colspan="4"> Total: <?php echo "total goes here";?> </td> <!--display totals-->
+                        <td colspan="1"></td>
+                    </tr>
                 </tfoot>
 
 

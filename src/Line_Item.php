@@ -17,15 +17,20 @@ class  Line_Item implements Purchase_Record
     public float $price;
     public DateTime $date;
 
-    public function __construct($id, $vendor, $item, $category, $tax_rates, float $price, $date )
+    public function __construct(string $id, string $vendor, string $name, Category $category, $tax_rates, float $price, DateTime $date )
     {
         $this->id =  $id;
         $this->vendor = $vendor;
-        $this->item = $item;
-        $this->category = new Category($category);
+        $this->item = $name;
+        $this->category = $category;
         $this->tax_rates = $tax_rates;
         $this->price = $price;
         $this->date = $date;
+    }
+
+    public static function from_post_data(array $data) : self
+    {
+        return new self($data["id"], $data["vendor"],$data["name"],$data["category"],$data["tax_rates"],$data["price"],$data["date"]);
     }
 
     public function __get(string $name)
