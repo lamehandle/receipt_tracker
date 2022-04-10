@@ -7,9 +7,9 @@ class Tax_Field
     private array $tax_rates = [];
     public static array $error = [];
 
-    public function __construct(Currency_Field ...$tax_rate){
-        self::get_errors($tax_rate);
-        array_push($this->tax_rates, $tax_rate);
+    public function __construct(array ...$tax_rate){
+
+        $this->tax_rates[] = $tax_rate;
     }
 
     public function get_rates(): array

@@ -4,7 +4,7 @@ namespace app;
 
 class Id_Field
 {
-    private float $line_item_id;
+    private string $line_item_id;
     public static array $error = [];
 
     public function __construct(){

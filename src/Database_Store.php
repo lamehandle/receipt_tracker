@@ -76,7 +76,7 @@ class Database_Store implements Store
             $conn->prepare($sql)->execute([
                 'id'        => $item->id,
                 'vendor'    => $item->vendor,
-                'item'      => $item->item,
+                'item'      => $item->name,
                 'category'  => $item->category,
                 'tax'       => $item->tax_rates,
                 'price'     => $item->price,
@@ -108,7 +108,7 @@ class Database_Store implements Store
             //bind values so that you can dynamically swap variables into the SQL query
         $stmt->bindValue(':id',         $item->id);
         $stmt->bindValue(':vendor',     $item->vendor);
-        $stmt->bindValue(':item',       $item->item);
+        $stmt->bindValue(':item',       $item->name);
         $stmt->bindValue(':category',   $item->category);
         $stmt->bindValue(':price',      $item->price);
         $stmt->bindValue(':date',       $item->date);

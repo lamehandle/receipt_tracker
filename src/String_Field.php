@@ -11,14 +11,14 @@ class String_Field{
         $this->line_item_string = $data;
     }
 
-    public static function get_errors($data):array{
-        if (isEmpty($data)) {
-            $error[] = "No data entered.";
+    public static function get_errors($data){
+        if (empty($data)) {
+            self::$error[] = "No data entered.";
         }elseif(!is_string($data)){
-            $error[] = "Must be non-numeric input.";
+            self::$error[] = "Must be non-numeric input.";
         }
         self::$error[] = "";
-        return self::$error;
+
     }
 
     public function is_equal(string $comparator):bool{

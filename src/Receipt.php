@@ -89,11 +89,11 @@ class Receipt implements Purchase_Record
     }
 
 
-    public function subtotal():float{
-        return array_reduce($this->line_items,
+    public function subtotal():Currency_Field{
+        return (new Currency_Field(array_reduce($this->line_items,
             function($accum, $item){
              return $accum + $item->subtotal();
-            },0);
+            },0)));
     }
 
     public function taxes():array {
@@ -118,7 +118,7 @@ class Receipt implements Purchase_Record
     }
 
     public function total() : float {
-          return $this->subtotal() + (float)array_sum($this->taxes());
+          return $this->subtotal() + array_sum($this->taxes());
     }
 
 }

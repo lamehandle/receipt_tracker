@@ -11,10 +11,23 @@ require_once('Filter.php');
 require_once('Report.php');
 require_once('Line_Item_Factory.php');
 require_once ('Database_Store.php');
+require_once ('Tax_Field.php');
+require_once ('Currency_Field.php');
+require_once ('String_Field.php');
+require_once ('Category.php');
 
-$tax_rates_1 = ["GST"=> 0.01, "PST"=> 0.01 ];
-$tax_rates_2 = ["GST"=> 0.20];
-$tax_rates_3 = ["PST"=> 0.07, "VAT" => 0.1];
+
+echo "file is powering up... \n";
+echo "------------------------" . PHP_EOL;
+
+$tax_rates_1 = (new Tax_Field(["GST"=> 0.01, "PST"=> 0.01]));
+$tax_rates_2 = (new Tax_Field(["GST"=> 0.20]));
+$tax_rates_3 = (new Tax_Field(["PST"=> 0.07, "VAT" => 0.1]));
+echo "tax rates are: " . PHP_EOL;
+print_r($tax_rates_1);
+//print_r($tax_rates_2);
+//print_r($tax_rates_3);
+//exit();
 
 $date = new DateTime();
 
@@ -27,8 +40,6 @@ $password   = 'root';
 
 $db = new Database_Store($host, $dbname, $port, $charset, $username, $password);
 
-echo "file is powering up... \n";
-echo "------------------------" . PHP_EOL;
 
 echo "\n";
 echo "Creating line items...". PHP_EOL;
@@ -37,31 +48,35 @@ echo "------------------------" . PHP_EOL;
 $user_data_1 = [
 
     'vendor'    => "Co-op",
-    'item'      => "Tomatoes",
+    'name'      => "Tomatoes",
     'category'  => "groceries",
-    'tax_rates' => $tax_rates_1,
-    'price'     => Utilities::random_price()
+    'price'     => Utilities::random_price(),
+    'date'      => new DateTime(),
+    'tax_rates' => $tax_rates_1
     ];
 $user_data_2 = [
 
-    'vendor'    => "Walmart",
-    'item'      => "Diapers",
-    'category'  => "misc",
+    'vendor'    => (new String_Field("Walmart")),
+    'name'      => (new String_Field("Diapers")),
+    'category'  => (new String_Field("misc")),
     'tax_rates' => $tax_rates_2,
-    'price'     => Utilities::random_price()
+    'price'     => (new Currency_Field(Utilities::random_price()))
 ];
 $user_data_3 = [
 
-    'vendor'    => "Canadian Tire",
-    'item'      => "Oil Change",
-    'category'  => "Automotive",
+    'vendor'    => (new String_Field("Canadian Tire")),
+    'name'      => (new String_Field("Oil Change")),
+    'category'  => (new String_Field("Automotive")),
     'tax_rates' => $tax_rates_3,
-    'price'     => Utilities::random_price()
+    'price'     => (new Currency_Field(Utilities::random_price()))
 ];
 
-$test_input_1  = LineItemFactory::getUserData($user_data_1);
-$test_input_2 = LineItemFactory::getUserData($user_data_2);
-$test_input_3 = LineItemFactory::getUserData($user_data_3);
+$test_input_1  = Line_Item::from_post_data($user_data_1);
+//$test_input_2 = LineItemFactory::getUserData($user_data_2);
+//$test_input_3 = LineItemFactory::getUserData($user_data_3);
+
+print_r($test_input_1);
+exit();
 
 echo "Initializing receipt...";
 echo "\n";
