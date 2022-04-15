@@ -4,7 +4,7 @@ namespace app;
 
 interface Purchase_Record
 {
-    public function subtotal():Currency_Field;
-    public function total():mixed;
+    public function subtotal():float;
+    public function total():float;
     public function taxes():array;
 }

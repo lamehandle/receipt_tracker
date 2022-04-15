@@ -21,7 +21,7 @@ class Utilities
        return $str;
     }
 
-    public static function random_price(){
+    public static function random_price(): float{
         //I want the format 0.00
         $dollars = (float)mt_rand(0, 500);
         $tens = (float)mt_rand(0, 9)/10;
@@ -29,7 +29,7 @@ class Utilities
 
         return $dollars + $tens + $ones;
     }
-    public static function sum_map(array $items, string $method){
+    public static function sum_map(array $items, string $method) {
         return array_sum(
             array_map(
                 function(LineItem $i) use ($method){

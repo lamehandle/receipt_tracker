@@ -21,7 +21,7 @@ class Id_Field
     }
 
     public static function get_errors($id):array{
-    if (isEmpty($id)) {
+    if (empty($id)) {
         $error[] = "No id exists.";
     }elseif(!is_string($id)){
         $error[] = "Must be a string.";
