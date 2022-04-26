@@ -6,5 +6,5 @@ interface Purchase_Record
 {
     public function subtotal():float;
     public function total():float;
-    public function taxes():array;
+    public function taxes():Taxes;
 }

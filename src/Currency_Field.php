@@ -8,18 +8,18 @@ class Currency_Field{
     public static array $error = [];
 
 
-    public function __construct($number){
+    public function __construct(float $number){
         self::get_errors($number);
         $this->item_currency = $number;
     }
 
-        public function get_currency(): float{
+        public function currency(): float{
         return $this->item_currency;
     }
 
     public function currency_string(): string
     {
-        return (string)$this->item_currency;
+        return "$". number_format($this->item_currency, 2, ".",",");
     }
 
     public static function get_errors($number):array{

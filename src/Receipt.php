@@ -5,31 +5,31 @@ namespace app;
 
 class Receipt implements Purchase_Record
 {
-    public static array $line_items = [];
+    public array $line_items = [];
 
-    private Id_Field $id;
+    private Id_ $id;
 
     public function __construct(){
-        $this->id = new Id_Field(uniqid("rec_", false));
+        $this->id = new Id_(uniqid("rec_", false));
     }
 
-    public static function add_item(Line_Item $item){
-        self::$line_items[] = $item;
+    public  function add_item(Line_Item $item){
+        $this->line_items[] = $item;
     }
 
-    public function removeItem($id){
-        $this->line_items = array_filter($this->line_items, function ($item) use ($id){
-                   return $item->id !== $id;
-               });
-        array_map(function ($item) use ($id) {
-            if($item->id === $id){
-                $this->remove_category_from_list($item->category);
-            }
-        }, $this->categories->category_list);
-    }
+//    public function removeItem($id){
+//        $this->line_items = array_filter($this->line_items, function ($item) use ($id){
+//                   return $item->id !== $id;
+//               });
+//        array_map(function ($item) use ($id) {
+//            if($item->id === $id){
+//                $this->remove_category_from_list($item->category);
+//            }
+//        }, $this->categories->category_list);
+//    }
 
     public function subtotal():float{
-        return array_reduce(self::$line_items,
+        return array_reduce($this->line_items,
             function($accum, $item){
              return $accum + $item->subtotal();
             },0);
@@ -39,7 +39,7 @@ class Receipt implements Purchase_Record
         // creates array of calculated tax values
         $tax_values = array_map( function ($item){
             return $item->taxes();
-        }, self::$line_items);
+        }, $this->line_items);
 
         //creates an array of all unique tax keys
         $tax_keys = array_unique(
@@ -57,7 +57,7 @@ class Receipt implements Purchase_Record
     }
 
     public function total() : float {
-          return array_reduce(self::$line_items, function($line_item){
+          return array_reduce($this->line_items, function($line_item){
              return $line_item->total();
           }, 0.00);
     }

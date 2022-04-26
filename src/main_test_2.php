@@ -11,11 +11,11 @@ require_once('Filter.php');
 require_once('Report.php');
 require_once('Line_Item_Factory.php.bak');
 require_once ('Database_Store.php');
-require_once ('Tax_Field.php');
+require_once('Tax.php');
 require_once ('Currency_Field.php');
 require_once ('String_Field.php');
 require_once ('Category.php');
-require_once ('Id_Field.php');
+require_once('Id.php');
 
 echo "file is powering up... \n";
 echo "------------------------" . PHP_EOL;
@@ -71,17 +71,14 @@ $receipt = new Receipt();
 echo "------------------------" . PHP_EOL;
 echo "Initializing line items...". PHP_EOL;
 
-Receipt::add_item($test_line_item_1);
-Receipt::add_item($test_line_item_2);
-Receipt::add_item($test_line_item_3);
+$receipt->add_item($test_line_item_1);
+$receipt->add_item($test_line_item_2);
+$receipt->add_item($test_line_item_3);
 
-print_r($receipt::$line_items);
+print_r($receipt->line_items);
 
-
+echo $test_line_item_1->price->currency_string(). PHP_EOL;
 echo "good to here.". PHP_EOL;
-
-echo $test_line_item_1->price->currency_string();
-
 
 ////todo refactor filter class
 //echo "---------------------------------". PHP_EOL;

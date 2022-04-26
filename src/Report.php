@@ -6,12 +6,12 @@ class Report
 {       //todo rework after new types are wired up
     public static function display_subtotal(Receipt $receipt):string{
         $prices = array_map(function($line_item){
-            return $line_item->price->subtotal();
+            return $line_item->subtotal();
         }, $receipt::$line_items);
 
         $price_subtotal =  array_reduce($prices, callback: function($price):float{
-           return $price->get_currency;
-        }, initial: 0);
+           return $price->currency;
+        }, initial: 0.00);
 
       return number_format($price_subtotal, 2, ".",",");
     }
