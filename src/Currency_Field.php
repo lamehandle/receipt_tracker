@@ -8,12 +8,12 @@ class Currency_Field{
     public static array $error = [];
 
 
-    public function __construct(float $number){
+    public function __construct(int $number){
         self::get_errors($number);
         $this->item_currency = $number;
     }
 
-        public function currency(): float{
+        public function currency(): int{
         return $this->item_currency;
     }
 

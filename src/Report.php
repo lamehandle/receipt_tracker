@@ -11,7 +11,7 @@ class Report
 
         $price_subtotal =  array_reduce($prices, callback: function($price):float{
            return $price->currency;
-        }, initial: 0.00);
+        }, initial: 0);
 
       return number_format($price_subtotal, 2, ".",",");
     }
