@@ -8,13 +8,12 @@ class Tax
     private string $name;
     public array $error = [];
 
-    public function __construct( string $name, array ...$tax_rate )    {
-        //todo rewrite to take an array of values
-        $this->rate[] = $tax_rate;
+    public function __construct( string $name, int $tax_rate )    {
+        $this->rate = $tax_rate;
         $this->name = $name;
     }
 
-    public function rates(): array    {
+    public function rates(): int    {
         return $this->rate;
     }
 

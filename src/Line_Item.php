@@ -3,6 +3,8 @@
 namespace app;
 
 use DateTime;
+use app\Taxes;
+use app\Tax;
 
 class  Line_Item implements Purchase_Record {
 
@@ -62,17 +64,9 @@ class  Line_Item implements Purchase_Record {
     }
 
     public function set_tax_rates(array ...$tax_rate): void  {
-       $keys = array_keys(...$tax_rate);
-       $values = array_values(...$tax_rate);
-
-       $all_tax = array_combine($keys, $values);
-       $new_taxes = array_reduce($all_tax, function($tax){
-       foreach ($tax as $key => $value){
-            new Tax($key, $value);
+        foreach ($tax_rate as $key => $value){
+            $this->tax_rates->add_tax((new Tax($key, (int)$value)));
         }
-       }, []);
-
-        $this->tax_rates->add_tax($new_taxes);
     }
 
     public function subtotal(): int{
@@ -84,7 +78,7 @@ class  Line_Item implements Purchase_Record {
     }
 
     public function total(): int{
-       return $this->subtotal() + $this->tax();
+       return $this->subtotal() + $this->taxes();
 
     }
 

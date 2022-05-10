@@ -11,7 +11,6 @@ class Taxes
     }
 
     public function add_tax(Tax ...$taxes): self    {
-        //todo rewrite to take an array of values
         foreach ($taxes as $tax){
             $this->rates[] = $tax->rate;
         }
@@ -20,8 +19,8 @@ class Taxes
 
     public function tax_amount(Line_Item $li): int{
         $price = $li->price->currency();
-        return $tax_amount = array_reduce($this->rates, function($rate) use ($price){
-            return $price * $rate->rates();
+            return array_reduce($this->rates, function($rate) use ($price){
+            return $price * $rate;
         },0);
     }
 

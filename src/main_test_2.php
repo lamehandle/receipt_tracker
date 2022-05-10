@@ -12,6 +12,7 @@ require_once('Report.php');
 require_once('Line_Item_Factory.php.bak');
 require_once ('Database_Store.php');
 require_once('Tax.php');
+require_once ('Taxes.php');
 require_once ('Currency_Field.php');
 require_once ('String_Field.php');
 require_once ('Category.php');
@@ -78,7 +79,7 @@ $receipt->add_item($test_line_item_3);
 print_r($receipt->line_items);
 
 echo $test_line_item_1->price->currency_string(). PHP_EOL;
-echo "good to here.". PHP_EOL;
+
 
 ////todo refactor filter class
 //echo "---------------------------------". PHP_EOL;
@@ -118,17 +119,21 @@ echo "good to here.". PHP_EOL;
 
 //todo rework after new types are wired up
 echo "---------------------------------". PHP_EOL;
-echo "Receipt subtotal: $" . Report::display_subtotal($receipt) . PHP_EOL;
+echo "Receipt subtotal: $" . number_format($receipt->subtotal(), 2,'.',',') . PHP_EOL;
 
 echo "---------------------------------". PHP_EOL;
 echo "Receipt taxes: ";
 echo "\n";
-foreach ($receipt->taxes() as $tax) {
-    echo "$". number_format($tax,2,'.',',') . PHP_EOL;
+//todo rewrite properly lol.....
+foreach ($receipt->line_items as $tax) {
+    echo "$". number_format($tax->subtotal(),2, '.',',' ) . PHP_EOL;
 }
+
+
 echo "\n";
 echo "---------------------------------". PHP_EOL;
 echo "Receipt final total: $" . number_format($receipt->total(),2,'.',',');
 echo "\n";
 echo "---------------------------------". PHP_EOL;
 
+echo "good to here.". PHP_EOL;

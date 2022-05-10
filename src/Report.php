@@ -3,14 +3,15 @@
 namespace app;
 
 class Report
-{       //todo rework after new types are wired up
-    public static function display_subtotal(Receipt $receipt):string{
+{
+    //todo rework after new types are wired up
+    public static function display_subtotal(Receipt $receipt): string{
         $prices = array_map(function($line_item){
             return $line_item->subtotal();
-        }, $receipt::$line_items);
+        }, $receipt->line_items);
 
-        $price_subtotal =  array_reduce($prices, callback: function($price):float{
-           return $price->currency;
+        $price_subtotal =  array_reduce($prices, callback: function($price): int{
+           return $price;
         }, initial: 0);
 
       return number_format($price_subtotal, 2, ".",",");

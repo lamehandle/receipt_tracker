@@ -4,7 +4,7 @@ namespace app;
 
 class Currency_Field{
 
-    public float $item_currency;
+    public int $item_currency;
     public static array $error = [];
 
 
@@ -33,7 +33,7 @@ class Currency_Field{
     }
 
     public function is_equal($comparator):bool{
-        return $this->item_currency === (float)$comparator;
+        return $this->item_currency === (int)$comparator;
     }
 
 }
