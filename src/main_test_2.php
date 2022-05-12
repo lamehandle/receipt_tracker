@@ -2,7 +2,7 @@
 namespace app;
 use DateTime;
 
-require __DIR__ . '/vendor/autoload.php';
+require '../vendor/autoload.php';
 require_once('Purchase_Record.php');
 require_once('Receipt.php');
 require_once('Line_Item.php');
