@@ -78,17 +78,16 @@ $receipt->add_item($test_line_item_3);
 
 print_r($receipt->line_items);
 
-echo $test_line_item_1->price->currency_string(). PHP_EOL;
 
 
 ////todo refactor filter class
-//echo "---------------------------------". PHP_EOL;
-//$filtered_by_vendor = Filter::filter_by_vendor($receipt, "Co-op");
-//echo "Here's is the result of vendor filter: ". PHP_EOL;
-//
-//print_r($filtered_by_vendor::$line_items). PHP_EOL;
-//
-//echo "End Vendor filter test.". PHP_EOL;
+echo "---------------------------------". PHP_EOL;
+$filtered_by_vendor = Filter::filter_by_vendor($receipt, "Co-op");
+echo "Here's is the result of vendor filter: ". PHP_EOL;
+
+print_r($filtered_by_vendor::$line_items). PHP_EOL;
+
+echo "End Vendor filter test.". PHP_EOL;
 //
 //
 ////todo not working
@@ -136,4 +135,4 @@ echo "Receipt final total: $" . number_format($receipt->total(),2,'.',',');
 echo "\n";
 echo "---------------------------------". PHP_EOL;
 
-echo "good to here.". PHP_EOL;
+//echo "good to here.". PHP_EOL;

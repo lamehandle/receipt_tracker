@@ -16,12 +16,12 @@ class ComposerStaticInitaa0ed82b292dcaf9d2737fd8f685ac9c
     public static $prefixDirsPsr4 = array (
         'app\\' => 
         array (
-            0 => __DIR__ . '/../receipt_tracker',
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
     public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/vendor',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
