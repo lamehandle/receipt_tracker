@@ -4,7 +4,6 @@ namespace app;
 
 class Taxes
 {
-    public static array $taxes;
     public array $rates;
     public function __construct()    {
 

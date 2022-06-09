@@ -21,11 +21,11 @@ class Utilities
        return $str;
     }
 
-    public static function random_price(): float{
-        //I want the format 0.00
-        $dollars = (float)mt_rand(0, 500);
-        $tens = (float)mt_rand(0, 9)/10;
-        $ones = (float)mt_rand(0, 9)/100;
+    public static function random_price(): int{
+        //I want the format in cents
+        $dollars = mt_rand(0, 500);
+        $tens = mt_rand(0, 9)/10;
+        $ones = mt_rand(0, 9)/100;
 
         return $dollars + $tens + $ones;
     }

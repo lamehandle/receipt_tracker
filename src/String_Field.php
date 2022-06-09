@@ -11,6 +11,11 @@ class String_Field{
         $this->line_item_string = $data;
     }
 
+    public function name(): string
+    {
+        return $this->line_item_string;
+    }
+
     public static function get_errors($data){
         if (empty($data)) {
             self::$error[] = "No data entered.";

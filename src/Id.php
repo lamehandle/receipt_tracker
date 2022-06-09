@@ -2,22 +2,23 @@
 
 namespace app;
 
-class Id_
+class Id
 {
     private string $line_item_id;
     public static array $error = [];
 
-    public function __construct(){
-        $this->line_item_id = uniqid('line-item-', false);
+    public function __construct(string $prefix) {
+
+        $this->line_item_id = uniqid($prefix, false);
         self::get_errors($this->line_item_id);
     }
 
-    public function get_id():string {
+    public function id():string {
         return $this->line_item_id;
     }
 
     public function is_equal(string $comparator):bool{
-        return $this->line_item_id === (string)$comparator;
+        return $this->line_item_id === $comparator;
     }
 
     public static function get_errors($id):array{

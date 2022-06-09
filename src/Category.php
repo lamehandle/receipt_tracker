@@ -11,13 +11,12 @@ class Category
         $this->category = $item_cat;
     }
 
-    public function __get(string $category)
-    {
+    public function category(): string {
         return $this->category;
     }
 
-    public function is_equal($cat):bool{
-         return $this->category === $cat->category;
+    public function is_equal(Category $cat):bool{
+         return $this->category() === $cat->category();
     }
 
 }
