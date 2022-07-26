@@ -1,6 +1,7 @@
 <?php
 
 namespace app;
+use Cassandra\Statement;
 use PDO;
 use PDOException;
 
@@ -8,7 +9,7 @@ require_once 'Store.php';
 
 class Database_Store implements Store
 {
-    public  PDO     $connection; // connection
+    public    PDO   $connection; // connection
     public string   $host;
     public string   $dbname;
     public string   $port;
@@ -38,14 +39,16 @@ class Database_Store implements Store
         try {
         echo "Connection Successful." . PHP_EOL;
         return $this->connection = new PDO($this->dsn,$this->username,$this->password,$this->options);
+
         } catch(PDOException $e){
             echo "Connection failed " . $e.getMessage();
             throw new PDOException($e->getMessage(), (int)$e->getCode());
         }
 
+
     }
 
-    public function insert_records(Receipt $receipt ) {
+    public function insert_records( Receipt $receipt ) {
           try{
               $data = $receipt->create_sql();
               $connection= $this->connect();
@@ -53,100 +56,57 @@ class Database_Store implements Store
                   $data = $item->data();
                   $Statement = $connection->prepare($data['sql']);
                   $Statement->execute([
-                          $data['id'],
-                          $data['vendor'],
-                          $data['name'],
-                          $data['category'],
-                          $data['tax'],
-                          $data['price'],
-                          $data['date']
+                      $data['id'],
+                      $data["vendor"],
+                      $data["item"],
+                      $data["category"],
+                      $data["price"],
+                      $data['gst'],
+                      $data['pst'],
+                      $data["date"]
                       ]);
+
               }, $data);
-
-
 
           }catch(PDOException $e){
               echo $e->getMessage();
           }
           $connection = null;
+          echo "Connection Closed.";
     }
 
-
-    public function retrieve_items($field, $value, Receipt $receipt = null) :Receipt { //todo refactor to be more specific?
+     public function retrieve_records(Receipt $receipt, string $sql )  { //todo implement retrieve_records
         try {
+            $connection = $this->connect();
+            $statement  = $connection->query($sql); //PDO statement object
+            print_r("Statement consists of the following:". PHP_EOL);
 
-
-            $conn = Database_Store::connect($this->dsn,$this->username,$this->password,$this->options);
-            if($receipt = null){
-                $receipt = new Receipt(uniqid("", false));
+            //need to pull data out.
+            while (($record = $statement->fetch(PDO::FETCH_NAMED)) !== false) {
+               $receipt->line_items[] = new Line_Item($record['vendor'], $record['name'], $record['category'],
+                   $record['price'], $record['gst'], $record['pst'], $record['date']);
             }
-            $sql = /** @lang text */
-                "SELECT * FROM receipts_2021 WHERE :field = :value";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([
-                    ':field'=> $field,
-                    ':value'=>$value
-                ]);
-            foreach ($stmt as $record){
-                $receipt->addItem($record);
-              }
-        } catch(PDOException $e){
-        throw new PDOException($e->getMessage(), (int)$e->getCode());
-    }
-        return $receipt;
-    }
-
-
-    public function update_line_item(PDO $conn, Line_Item $item ){
-        try {
-            //connect to db
-            $conn = Database_Store::connect($this->dsn, $this->username, $this->password, $this->options);
-
-            //create and store the query you want to be able to run.
-            $sql = /** @lang text */
-                'UPDATE receipts_2021    
-                SET vendor     = :vendor    AND 
-                    item       = :item      AND 
-                    category   = :category  AND
-                    price      = :price     AND
-                    date       = :date
-                WHERE :id = id';
-            //prepare the sql query. This step prevents injection attacks.
-        $stmt = $conn->prepare($sql);
-            //bind values so that you can dynamically swap variables into the SQL query
-        $stmt->bindValue(':id',         $item->id);
-        $stmt->bindValue(':vendor',     $item->vendor);
-        $stmt->bindValue(':item',       $item->name);
-        $stmt->bindValue(':category',   $item->category);
-        $stmt->bindValue(':price',      $item->price);
-        $stmt->bindValue(':date',       $item->date);
+            print_r($receipt->line_items);
 
         } catch(PDOException $e){
-            throw new PDOException($e->getMessage(), (int)$e->getCode());
-        }
-        $conn = null; //close connection
-    }
+            echo $e->getMessage();
 
-    public function delete_item(Line_Item $item){
-        try {
-            //connect to db
-            $connection= $this->connect();
-
-            $sql = /** @lang text */
-                "Delete FROM receipts_2021 
-                 WHERE :id = id";
-
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue(':id', $item->id);
-            $stmt->execute();
-
-        } catch(PDOException $e){
-            throw new PDOException($e->getMessage(), (int)$e->getCode());
         }
         $connection = null;
+    }
+
+
+
+
+    public function update_record(){ //todo implement update_record
+
 
     }
-//todo this is overly complex and I am simplifying
+
+    public function delete_record(){//todo implement delete_record
+
+    }
+
 
 
 }

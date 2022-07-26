@@ -2,34 +2,20 @@
 
 namespace app;
 
-class Id
+class Id implements Id_Interface
 {
-    private string $line_item_id;
-    public static array $error = [];
+    private string $id;
 
     public function __construct(string $prefix) {
-
-        $this->line_item_id = uniqid($prefix, false);
-        self::get_errors($this->line_item_id);
+        $this->id = uniqid($prefix, false);
     }
 
-    public function id():string {
-        return $this->line_item_id;
+    public function id() : string {
+        return $this->id;
     }
 
-    public function is_equal(string $comparator):bool{
-        return $this->line_item_id === $comparator;
+    public function identity(): Id {
+        return $this;
     }
-
-    public static function get_errors($id):array{
-    if (empty($id)) {
-        $error[] = "No id exists.";
-    }elseif(!is_string($id)){
-        $error[] = "Must be a string.";
-    }
-    self::$error[] = "";
-    return self::$error;
-}
-
 
 }

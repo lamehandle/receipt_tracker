@@ -1,103 +1,96 @@
 <?php
 
 namespace app;
-use PDO;
 use DateTime;
-use app\Taxes;
-use app\Tax;
-use app\Data_Rep;
 
 class  Line_Item implements Purchase_Record {
 
     public Id $id;
+    public Vendor $vendor;
+    public Item $item;
     public Category $category;
-    public String_Field $vendor;
-    public String_Field $name;
-    public Taxes $tax_rates;
-    public Currency_Field $price;
-    public String_Field $date;
+    public Price $price;
+    public DateTime $date;
+    public GST $gst;
+    public PST $pst;
 
-    public function __construct(string $vendor, string $name, string $category, int $price, $date, array ...$tax_rate){
+    public function __construct(string $vendor, string $item, string $category, int $price, int $gst, int $pst, string $date){
+
         $this->id = new Id('line-item_');
-        $this->vendor = new String_Field($vendor);
-        $this->name = new String_Field($name);
+        $this->vendor = new Vendor($vendor);
+        $this->item = new Item($item);
         $this->category = new Category($category);
-        $this->price = new Currency_Field($price);
-        $this->date = new String_Field($date); //A string representing a date in YYYY-MM-DD format, or empty
-        $this->tax_rates = new Taxes();
-            $this->set_tax_rates(...$tax_rate);
+        $this->price = new Price($price);
+        $this->gst = new GST( $gst );
+        $this->pst = new PST( $pst );
+        $this->date = date_create($date); //A string representing a date in YYYY-MM-DD format, or empty
     }
 
     public static function from_post_data(array $data) : self {
         return new self (
-            $data["vendor"],
-            $data["name"],
-            $data["category"],
-            $data["price"],
-            $data["date"],
-            $data["tax_rates"]
+            $data['vendor'],
+            $data['item'],
+            $data['category'],
+            $data['price'],
+            $data['gst'],
+            $data['pst'],
+            $data['date']
         );
-
     }
 
-    public function vendor()  :String_Field  {
-        return $this->vendor;
+    public function vendor(): string  {
+        return $this->vendor->name();
     }
 
-    public function name() :String_Field   {
-        return $this->name;
+    public function item(): string   {
+        return $this->item->name();
     }
 
-    public function category()    {
-        return $this->category;
+    public function category(): string    {
+        return $this->category->name();
     }
 
-
-    public function date(): String_Field   {
+        //todo rework to use an actual date object
+    public function date(): DateTime   {
         return $this->date;
     }
 
-    public function set_tax_rates(array ...$tax_rate): void  {
-        foreach ($tax_rate as $key => $value){
-            $this->tax_rates->add_tax((new Tax($key, (int)$value)));
-        }
+    public function tax():  int {
+        return $this->gst->rate() + $this->pst->rate();
     }
+
+    public function tax_string():   string    {
+        return number_format( ( $this->total() - $this->subtotal() ), 2,'.',',' );
+    }
+
+    public function subtotal() : int  {
+        return $this->price->amount();
+    }
+
+    public function total(): int{
+      return $this->subtotal() + ( $this->subtotal() * $this->tax() );
+    }
+
+    public function sql_query() :string {
+        return "INSERT INTO line_Items  ( id,  vendor,  item,  category,  price,   gst,  pst,  date )
+                            VALUES      (:id, :vendor, :item, :category, :price,  :gst, :pst, :date )";
+    }
+
 
     public function sql_values() :Data_Rep  {
         $data = [
             'id'        => $this->id->id(),
             'vendor'    => $this->vendor->name(),
-            'name'      => $this->name->name(),
-            'category'  => $this->category->category(),
-            'tax'       => $this->tax_rates->tax_amount($this),
-            'price'     => $this->price->currency(),
-            'date'      => $this->date()->name(),
-            'sql'       => $this->sql_query()
+            'item'      => $this->item->name(),
+            'category'  => $this->category->name(),
+            'price'     => $this->price->amount(),
+            'gst'       => $this->gst->rate(),
+            'pst'       => $this->pst->rate(),
+            'date'      => $this->date->format('Y-m-d H:i:s'), //rework as DateTime
+            'sql'       => $this->sql_query(),
         ];
 
-        return (new Data_Rep("line_Item", $data));
-    }
-
-    public function sql_query() :string {
-        return /** @lang text */
-            "INSERT INTO line_Items ( id, vendor,  name,  category,  tax,  price,  date )
-                            VALUES  (:id, :vendor, :name, :category, :tax, :price, :date)";
-    }
-
-    public function tax(): int {
-        return $this->tax_rates->tax_amount($this);
-    }
-    public function tax_string(): string {
-        return (string)$this->tax_rates->tax_amount($this);
-    }
-
-    public function subtotal()  : int  {
-        return $this->price->currency();
-    }
-
-    public function total(): int{
-       return $this->subtotal() + $this->tax();
-
+        return (new Data_Rep($data));
     }
 
 }

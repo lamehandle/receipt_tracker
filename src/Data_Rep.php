@@ -8,13 +8,13 @@ class Data_Rep
     private array   $data;
 
 
-    public function __construct(string $name, array $data) {
-        $this->name = $name;
+    public function __construct(array $data) {
+        $this->name = $data['item'];
         $this->data = $data;
     }
 
     public function name() : string {
-        return $this->name;
+        return $this->data['item'];
     }
 
     public function data(): array  {
@@ -22,13 +22,12 @@ class Data_Rep
 
     }
 
-    public function sql_values()
-    {
-
+    public function identity(): Data_Rep    {
+        return $this;
     }
 
-    public function valid():bool {
-        return !empty( $this->name ) && !empty( $this->data );
+    public function valid():    bool {
+        return !empty( $this->data );
     }
 }
 

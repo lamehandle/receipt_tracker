@@ -2,7 +2,7 @@
 
 namespace app;
 
-class Category implements Text_Field_Interface
+class Vendor implements Text_Field_Interface
 {
     private string $name;
     private Id $id;
@@ -12,18 +12,15 @@ class Category implements Text_Field_Interface
         $this->id = new Id('vend_');
     }
 
-    public function name(): string {
+    public function name(): string     {
         return $this->name;
     }
 
-    public function id() : Id  {
+    public function id() : Id    {
         return $this->id;
     }
 
-    public function identity(): Category  {
+    public function identity(): Vendor  {
         return $this;
     }
-
-
 }
-

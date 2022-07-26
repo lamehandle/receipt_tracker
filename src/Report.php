@@ -19,7 +19,7 @@ class Report
 
 
     public static function display_taxes(Receipt $receipt):array {
-        $taxes = $receipt->tax();
+        $taxes = $receipt->tax_amount();
         return array_map(function($tax){
 
              return number_format($tax,2,".",",");

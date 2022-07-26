@@ -1,0 +1,33 @@
+<?php
+
+namespace app;
+
+class Tax implements Tax_Interface
+{
+    private int $rate;
+    private string $name;
+    private Id $id;
+
+    public function __construct( string $name = '', int $tax_rate = 0 )    {
+        $this->rate = $tax_rate;
+        $this->name = $name;
+        $this->id = new Id('tax_');
+    }
+
+    public function rate(): int    {
+        return  $this->rate;
+    }
+
+    public function name(): string    {
+        return $this->name;
+    }
+
+    public function id(): Id    {
+        return  $this->id;
+    }
+
+    public function identity() : Tax    {
+        return $this;
+    }
+
+}

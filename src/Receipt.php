@@ -38,8 +38,12 @@ class Receipt implements Purchase_Record
              return $carry + $li->total();
           }, 0);
     }
-
-    public function tax():int {
+    public function tax(): array{
+        return array_map(function($item){
+            return $item->tax();
+        }, $this->line_items);
+    }
+    public function tax_amount():int {
         return array_reduce($this->line_items, function($carry, $item){
           return $carry + $item->taxes();
         }, 0);
@@ -50,6 +54,25 @@ class Receipt implements Purchase_Record
         return array_map(function ($i) {
             return $i->sql_values();
         }, $this->line_items );
+    }
+
+    public static function retrieve_by_vendor(string $value) : string { // todo implement vendor, category, & date implementations...
+
+       $sql = "SELECT * FROM line_items WHERE vendor LIKE '{$value}' ";
+//        print_r($sql) . PHP_EOL; //works
+        return $sql;
+    }
+    public function retrieve_by_category(string $value) : string { // todo implement vendor, category, & date implementations...
+
+        return "SELECT * FROM line_items WHERE category = $value ";
+
+    }
+
+    public function retrieve_by_date(string $value) : string { // todo implement vendor, category, & date implementations...
+//
+//        return "SELECT * FROM line_items WHERE (date = "$value`) ";
+//                                    //date format yyyy-mmm-dd
+
     }
 
     public function populate_categories(?array $cat_list = array()){
@@ -82,15 +105,7 @@ class Receipt implements Purchase_Record
 
 
     public function removeItem($id){
-        $this->line_items = array_filter($this->line_items, function ($item) use ($id){
-                   return $item->id !== $id;
-               });
 
-        array_map(function ($item) use ($id) {
-            if($item->id === $id){
-                $this->remove_category_from_list($item->category);
-            }
-        }, $this->categories->category_list);
     }
 
 }

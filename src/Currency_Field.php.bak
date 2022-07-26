@@ -1,0 +1,26 @@
+<?php
+
+namespace app;
+
+class Currency_Field{
+
+    private int $item_currency;
+    private static array $error = [];
+
+    public function __construct( int $number ) {
+        self::get_errors($number);
+        $this->item_currency = $number;
+    }
+        public function currency(): int{
+            return $this->item_currency;
+    }
+
+    public function currency_string(): string {
+        return "$". number_format($this->item_currency, 2, ".",",");
+    }
+
+    public function is_equal($comparator): bool {
+        return $this->item_currency === (int)$comparator;
+    }
+
+}
